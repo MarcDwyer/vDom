@@ -4,30 +4,58 @@ const createElement = (tagName, { children = [], attrs = {} } = {}) => ({
   children
 });
 
-const vDom = createElement("div", {
-  attrs: {
-    id: "stop-me",
-    class: "who-dis"
-  },
-  children: [
-    createElement("img", {
-      attrs: {
-        src: "https://media.giphy.com/media/2XskdWuNUyqElkKe4bm/giphy.gif"
-      }
-    })
-  ]
-});
 const render = vNode => {
-  const ele = document.createElement(vNode.tagName);
-  console.log(vNode);
-  for (const [k, v] of Object.entries(vNode.attrs)) {
+  if (typeof vNode === "string") {
+    return document.createTextNode(vNode);
+  }
+  return renderElem(vNode);
+};
+const renderElem = vNode => {
+  const { tagName, children, attrs } = vNode;
+  const ele = document.createElement(tagName);
+
+  for (const [k, v] of Object.entries(attrs)) {
     ele.setAttribute(k, v);
   }
-  for (const child of vNode.children) {
+  for (const child of children) {
     const subChild = render(child);
     ele.appendChild(subChild);
   }
   return ele;
 };
-const root = document.querySelector("#root");
-root.appendChild(render(vDom));
+
+const createVapp = counter =>
+  createElement("div", {
+    attrs: {
+      id: "stop-me",
+      class: "who-dis",
+      counter: String(counter)
+    },
+    children: [
+      createElement("img", {
+        attrs: {
+          src: "https://media.giphy.com/media/2XskdWuNUyqElkKe4bm/giphy.gif"
+        }
+      }),
+      createElement("input", {
+        attrs: {
+          value: "barn"
+        }
+      }),
+      "hello world"
+    ]
+  });
+let count = 0;
+let myEle = render(createVapp(count));
+const mount = (node, target) => {
+  const ele = document.querySelector(target);
+  ele.replaceWith(node);
+};
+
+mount(myEle, "#root");
+
+// setInterval(() => {
+//   count++;
+//   myEle = render(createVapp(count));
+//   mount(myEle, "div.who-dis");
+// }, 2500);
