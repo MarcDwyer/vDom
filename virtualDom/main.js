@@ -42,6 +42,7 @@ setInterval(() => {
       })
     ]
   };
+  console.log(newNode);
   const patch = diff(oldNode, newNode);
   const resultNode = patch(myEle);
 }, 5000);

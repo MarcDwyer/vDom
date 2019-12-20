@@ -7,7 +7,7 @@ const render = vNode => {
 const renderElem = vNode => {
   const { tagName, children, attrs } = vNode;
   const ele = document.createElement(tagName);
-
+  console.log(vNode);
   for (const [k, v] of Object.entries(attrs)) {
     ele.setAttribute(k, v);
   }
