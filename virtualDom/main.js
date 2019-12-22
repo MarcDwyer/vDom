@@ -1,7 +1,5 @@
-import diff from "./diff";
 import createElement from "./CreateElement";
-import render from "./Render";
-import mount from "./Mount";
+import { FiberNode } from "./doubly-list";
 
 const createVapp = counter =>
   createElement("div", {
@@ -14,7 +12,15 @@ const createVapp = counter =>
       createElement("img", {
         attrs: {
           src: "https://media.giphy.com/media/2XskdWuNUyqElkKe4bm/giphy.gif"
-        }
+        },
+        children: [
+          createElement("span", {
+            attrs: {
+              id: "this is a random span",
+              innerHTML: "it is i"
+            }
+          })
+        ]
       }),
       createElement("input", {
         attrs: {
@@ -23,26 +29,6 @@ const createVapp = counter =>
       })
     ]
   });
-let count = 0;
-console.log(count);
-let oldNode = createVapp(count);
-let myEle = render(oldNode);
-mount(myEle, "#root");
-
-setInterval(() => {
-  const newCount = Math.floor(Math.random() * 100);
-  const newNode = {
-    ...oldNode,
-    children: [
-      ...oldNode.children,
-      createElement("span", {
-        attrs: {
-          innerHTML: String(newCount)
-        }
-      })
-    ]
-  };
-  console.log(newNode);
-  const patch = diff(oldNode, newNode);
-  const resultNode = patch(myEle);
-}, 5000);
+const fiber = createVapp();
+const root = new FiberNode(fiber);
+root.print();

@@ -51,9 +51,9 @@ const diffChildren = (oldChildren, newChildren) => {
 };
 
 const diff = (oldNode, newNode) => {
+  console.log(oldNode);
   const patchChildren = diffChildren(oldNode.children, newNode.children);
   const patchAttrs = diffAttrs(oldNode.attrs, newNode.attrs);
-
   return element => {
     patchAttrs(element);
     patchChildren(element);
