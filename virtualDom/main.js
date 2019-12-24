@@ -1,7 +1,7 @@
 import createElement from "./CreateElement";
-import { FiberNode } from "./doubly-list";
+import { FiberNode, link } from "./doubly-list";
 
-const createVapp = counter =>
+const createVApp = counter => [
   createElement("div", {
     attrs: {
       id: "stop-me",
@@ -28,7 +28,15 @@ const createVapp = counter =>
         }
       })
     ]
-  });
-const fiber = createVapp();
-const root = new FiberNode(fiber);
-root.print();
+  })
+];
+
+const rootNode = createElement("div", {
+  attrs: {
+    id: "root"
+  }
+});
+// const fiber = createVapp();
+// const root = new FiberNode(rootNode);
+const result = link(rootNode, createVApp(3));
+console.log(result);

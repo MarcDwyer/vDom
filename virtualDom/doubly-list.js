@@ -1,39 +1,33 @@
 class FiberNode {
   constructor(fiber) {
     this.fiber = fiber;
-    this.prev = null;
-    this.next = null;
-    this.children = fiber.children.length ? new List(this) : null;
-  }
-  print() {
-    console.log(this);
+    this.childrenArray = fiber.children;
+    this.child = null;
+    this.sibling = null;
+    this.parent = null;
   }
 }
-class List {
-  constructor(hostNode) {
-    console.log(hostNode);
-    this.head = hostNode;
-    this.tail = hostNode;
-    this.length = 0;
-    this.children = this.setList(hostNode.fiber.children);
-  }
-  setList(children) {
-    // const { children } = this;
-    let index = 0;
-    let current = children[index];
-    while (current) {
-      const newNode = new FiberNode(children[index]);
-      this.tail.next = newNode;
-      newNode.prev = this.tail;
-      this.tail = newNode;
-      index++;
-      this.length++;
-      current = children[index];
-      if (index > 100) {
-        console.log("loop not ending");
-        break;
-      }
+
+function link(parent1, node) {
+  console.log(node);
+  const parent = new FiberNode(parent1);
+  let index = 0;
+  let current = node[index];
+  let prevNode = null;
+  while (current) {
+    const fiberNode = new FiberNode(current);
+    const { childrenArray } = fiberNode;
+    fiberNode.parent = parent;
+    if (childrenArray.length) {
+      fiberNode = link(current, fiberNode.childrenArray);
     }
+    if (prevNode) fiberNode.sibling = prevNode;
+    prevNode = fiberNode;
+    parent.child = fiberNode;
+    index++;
+    current = node[index];
   }
+  return parent;
 }
-export { FiberNode, List };
+
+export { FiberNode, link };
