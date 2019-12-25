@@ -36,7 +36,6 @@ const rootNode = createElement("div", {
     id: "root"
   }
 });
-// const fiber = createVapp();
-// const root = new FiberNode(rootNode);
+
 const result = link(rootNode, createVApp(3));
 console.log(result);

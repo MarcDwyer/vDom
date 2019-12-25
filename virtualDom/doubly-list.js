@@ -1,5 +1,6 @@
 class FiberNode {
   constructor(fiber) {
+    console.log(fiber);
     this.fiber = fiber;
     this.childrenArray = fiber.children;
     this.child = null;
@@ -9,13 +10,13 @@ class FiberNode {
 }
 
 function link(parent1, node) {
-  console.log(node);
+  // console.log(node);
   const parent = new FiberNode(parent1);
   let index = 0;
   let current = node[index];
   let prevNode = null;
   while (current) {
-    const fiberNode = new FiberNode(current);
+    let fiberNode = new FiberNode(current);
     const { childrenArray } = fiberNode;
     fiberNode.parent = parent;
     if (childrenArray.length) {
